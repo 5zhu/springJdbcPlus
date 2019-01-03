@@ -1,5 +1,6 @@
 package com.springJdbcPlus.dao;
 
+import com.springJdbcPlus.entity.GenderEnum;
 import com.springJdbcPlus.entity.User;
 import core.utils.RowMapperLoader;
 import org.junit.Test;
@@ -23,7 +24,7 @@ public class TestDao {
 
     @Test
     public void insert() throws Exception {
-        User user = new User(20,"geguofeng","1223dfcfdv12",181.5);
+        /*User user = new User(20,"geguofeng","1223dfcfdv12",181.5);
         user.setGender(1);
         //user.setIdCard("410527");
         int i = userDao.insertDO(user);
@@ -49,7 +50,11 @@ public class TestDao {
         int i6 = userDao.insertDO(user6);
         User user7 = new User(27,"geguofeng","1223dfcfdv12",181.5);
         user7.setGender(1);
-        int i7 = userDao.insertDO(user7);
+        int i7 = userDao.insertDO(user7);*/
+        User user8 = new User(29, "tom", "1234312", 100.5);
+        user8.setGenderEnum(GenderEnum.MALE);
+        user8.setGender(1);
+        userDao.insertDO(user8);
 
 
 

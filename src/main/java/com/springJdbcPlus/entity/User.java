@@ -11,6 +11,7 @@ public class User extends SuperEntity {
     private String password;
     private Double account;
     private int gender;
+    private GenderEnum genderEnum;
     /*@UserDefined(transitionSource="gender", transitionFunction = "local(\"gender\", \"test1\") as gender")
     private String genderStr;*/
     private String idCard;
@@ -75,5 +76,13 @@ public class User extends SuperEntity {
 
     public void setIdCard(String idCard) {
         this.idCard = idCard;
+    }
+
+    public GenderEnum getGenderEnum() {
+        return genderEnum;
+    }
+
+    public void setGenderEnum(GenderEnum genderEnum) {
+        this.genderEnum = genderEnum;
     }
 }

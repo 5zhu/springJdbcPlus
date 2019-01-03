@@ -7,8 +7,8 @@ import core.utils.RowMapperLoader;
 import core.utils.SqlGenerater;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
@@ -28,8 +28,8 @@ public abstract class JdbcTemplateDaoSupport<T extends SuperEntity> {
 
     private int executeInsert(String sql, T t) {
         KeyHolder holder = new GeneratedKeyHolder();
-        this.namedParameterJdbcTemplate.update(sql,
-                new BeanPropertySqlParameterSource(t), holder,
+        SqlParameterSource source = new DefinedBeanPropertySqlParameterSource(t);
+        this.namedParameterJdbcTemplate.update(sql, source, holder,
                 new String[] { t.getDBAttributeName(t.getPkFieldName()) });
         Number number = holder.getKey();
         return Optional.ofNullable(number).map(Number::intValue).orElse(0);

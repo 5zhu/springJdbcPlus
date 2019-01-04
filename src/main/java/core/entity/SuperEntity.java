@@ -71,12 +71,6 @@ public abstract class SuperEntity implements Serializable {
     }
 
     static class FiledCache {
-        // 所有属性（不进行注解转换）缓存
-        static Cache<String, List<String>> allFieldCache = CacheBuilder.newBuilder().build();
-        // 所有field对象实体map
-        static Cache<String, List<Field>> allFieldEntryMap = CacheBuilder.newBuilder().build();
-        // field对象实体（不带注解）map
-        static Cache<String, List<Field>> fieldEntryMap = CacheBuilder.newBuilder().build();
         // 属性（不带注解）缓存 （与数据库有对应列的属性）
         static Cache<String, List<String>> fieldMap = CacheBuilder.newBuilder().build();
         // 属性（带转换注解）缓存
@@ -92,32 +86,6 @@ public abstract class SuperEntity implements Serializable {
             fieldDBMap.put(className, fieldMap);
         }
 
-        static List<String> getAllField(String className) {
-            return allFieldCache.getIfPresent(className);
-        }
-
-        static void setAllField(String className, List<String> field_list) {
-            allFieldCache.put(className, field_list);
-        }
-
-        public static List<Field> getAll_fieldEntry(String className) {
-            return allFieldEntryMap.getIfPresent(className);
-        }
-
-        public static void setAll_fieldEntry(String className,
-                                             List<Field> field_list) {
-            allFieldEntryMap.put(className, field_list);
-        }
-
-        public static List<Field> getFieldEntry(String className) {
-            return fieldEntryMap.getIfPresent(className);
-        }
-
-        public static void setFieldEntry(String className,
-                                         List<Field> field_list) {
-            fieldEntryMap.put(className, field_list);
-        }
-
         static List<String> getField(String className) {
             return fieldMap.getIfPresent(className);
         }
@@ -130,10 +98,6 @@ public abstract class SuperEntity implements Serializable {
             return fieldTransitionMap.getIfPresent(className);
         }
 
-        static void setTransitionField(String className,
-                                       Map<String, String> field_map) {
-            fieldTransitionMap.put(className, field_map);
-        }
     }
 
     public Object getAttributeValue(String name) throws Exception {

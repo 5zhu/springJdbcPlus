@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -71,6 +72,9 @@ public class RowMapperLoader<T> implements RowMapper<T> {
                     field.set(obj, rs.getTimestamp(columnName));
                 } else if (fieldClazz == Long.class || fieldClazz == long.class) { // long
                     field.set(obj, rs.getLong(columnName));
+                } else if (fieldClazz.isEnum()){
+                    Method method = obj.getClass().getMethod(NameHandler.getSetMethodName(field.getName()), fieldClazz);
+                    method.invoke(obj, Enum.valueOf(fieldClazz, rs.getString(columnName)));
                 }
 
                 field.setAccessible(false);

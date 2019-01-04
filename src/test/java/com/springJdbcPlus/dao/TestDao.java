@@ -83,7 +83,7 @@ public class TestDao {
 
     @Test
     public void get() {
-        User user = userDao.getDo(User.class, 11);
+        User user = userDao.getDo(User.class, 29);
         System.out.println(user);
     }
 

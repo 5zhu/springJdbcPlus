@@ -9,8 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.SqlOutParameter;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "/application-beans.xml")
@@ -102,6 +105,14 @@ public class TestDao {
         User user = (User) jdbcTemplate.queryForObject(sql, mapper, 3);
         System.out.println(user.getUsername());
 
+    }
+
+    @Test
+    public void queryForList() throws Exception {
+        User user = new User();
+        user.setUsername("geguofeng");
+        List<User> users = this.userDao.queryForList(user);
+        System.out.println(users.size());
     }
 
 }

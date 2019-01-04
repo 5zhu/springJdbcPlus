@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.util.StringUtils;
 
 import java.util.*;
 
@@ -108,4 +109,18 @@ public abstract class JdbcTemplateDaoSupport<T extends SuperEntity> {
         return null;
     }
 
+    protected <T extends SuperEntity> List<T> findList(T t) throws Exception {
+        return query(t.getClass(), t);
+    }
+
+    private <T extends SuperEntity> List<T> query(Class<? extends SuperEntity> clazz, T t) throws Exception {
+        SqlGenerater sqlGenerater = SqlGenerater.get();
+        List<Object> params = Lists.newArrayList();
+        String selectSql = sqlGenerater.generateSelectSql(t);
+        String whereSql = sqlGenerater.generateWhereSql(t, params);
+        if(!StringUtils.isEmpty(whereSql)){
+            selectSql = new StringBuffer(selectSql).append(" where ").append(whereSql).toString();
+        }
+        return this.jdbcTemplate.query(selectSql, params.toArray(), new RowMapperLoader<T>(clazz));
+    }
 }

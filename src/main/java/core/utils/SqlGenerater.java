@@ -39,7 +39,7 @@ public class SqlGenerater<T extends SuperEntity> {
         return insert_sql.append(insert_value_sql).toString();
     }
 
-    public String generateDeleteSql(T t){
+    public <T extends SuperEntity> String generateDeleteSql(T t){
         StringBuffer delete_sql = new StringBuffer(" delete from ");
         delete_sql.append(t.getTableName()).append(" where ")
                 .append(t.getDBAttributeName(t.getPkFieldName()))
@@ -47,13 +47,37 @@ public class SqlGenerater<T extends SuperEntity> {
         return delete_sql.toString();
     }
 
-    public String generateSelectSql(T t) {
+    public <T extends SuperEntity> String generateSelectSql(T t) {
         StringBuffer sql = new StringBuffer(" SELECT ");
         String fieldInDB = t.getAttributeNames().stream()
                 .map(s -> t.getDBAttributeName(s))
                 .collect(Collectors.joining(","));
         sql.append(fieldInDB).append(" FROM ").append(t.getTableName()).append(" ");
         return sql.toString();
+    }
+
+    public <T extends SuperEntity> String generateWhereSql(T t, List<Object> params) throws Exception {
+        StringBuffer whereSql = new StringBuffer();
+        if(Objects.nonNull(t)){
+            List<String> fields = t.getAttributeNames();
+            for (String field : fields){
+                Object fieldValue = t.getAttributeValue(field);
+                field = t.getDBAttributeName(field);
+                if(Objects.nonNull(fieldValue)){
+                    if(whereSql.length() > 0) {
+                        whereSql.append(" and ");
+                    }
+                    if(fieldValue instanceof String){
+                        whereSql.append(field).append(" like ? ");
+                        params.add("%"+fieldValue+"%");
+                    } else {
+                        whereSql.append(field).append("= ? ");
+                        params.add(fieldValue);
+                    }
+                }
+            }
+        }
+        return whereSql.toString();
     }
 
 }

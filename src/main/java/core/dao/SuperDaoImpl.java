@@ -3,6 +3,8 @@ package core.dao;
 import core.entity.SuperEntity;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository("superDao")
 public class SuperDaoImpl<T extends SuperEntity> extends JdbcTemplateDaoSupport implements SuperDao<T> {
 
@@ -23,5 +25,10 @@ public class SuperDaoImpl<T extends SuperEntity> extends JdbcTemplateDaoSupport 
     @Override
     public void deleteDO(Class<T> clazz, int id) throws Exception {
         super.delete(clazz, id);
+    }
+
+    @Override
+    public List<T> queryForList(T t) throws Exception {
+        return super.findList(t);
     }
 }

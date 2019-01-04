@@ -10,7 +10,7 @@ public class User extends SuperEntity {
     private String username;
     private String password;
     private Double account;
-    private int gender;
+    private Integer gender;
     private GenderEnum genderEnum;
     /*@UserDefined(transitionSource="gender", transitionFunction = "local(\"gender\", \"test1\") as gender")
     private String genderStr;*/
@@ -62,11 +62,11 @@ public class User extends SuperEntity {
         this.account = account;
     }
 
-    public int getGender() {
+    public Integer getGender() {
         return gender;
     }
 
-    public void setGender(int gender) {
+    public void setGender(Integer gender) {
         this.gender = gender;
     }
 

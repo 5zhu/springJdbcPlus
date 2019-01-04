@@ -2,8 +2,9 @@ package core.dao;
 
 import core.entity.SuperEntity;
 
-public interface SuperDao<T extends SuperEntity> {
+import java.util.List;
 
+public interface SuperDao<T extends SuperEntity> {
 
     /**
      * 新增
@@ -36,4 +37,12 @@ public interface SuperDao<T extends SuperEntity> {
      * @param id
      */
     public void deleteDO(Class<T> clazz, int id) throws Exception;
+
+    /**
+     * 查询List
+     * @param t
+     * @return
+     * @throws Exception
+     */
+    public List<T> queryForList(T t) throws Exception;
 }

@@ -1,5 +1,6 @@
 package core.dao;
 
+import core.entity.PageView;
 import core.entity.SuperEntity;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public interface SuperDao<T extends SuperEntity> {
      * @param id
      * @return
      */
-    public T getDo(Class<T> tClass, int id);
+    public T getById(Class<T> tClass, int id);
 
     /**
      * 更新
@@ -29,7 +30,7 @@ public interface SuperDao<T extends SuperEntity> {
      * @return
      * @throws Exception
      */
-    public int update(T oldDo, T newDO) throws Exception;
+    public int updateDO(T oldDo, T newDO) throws Exception;
 
     /**
      * 删除
@@ -45,4 +46,14 @@ public interface SuperDao<T extends SuperEntity> {
      * @throws Exception
      */
     public List<T> queryForList(T t) throws Exception;
+
+    /**
+     * 分页查询
+     * @param t
+     * @return
+     * @throws Exception
+     */
+    public PageView queryForPage(T t) throws Exception;
+
+    public PageView queryForPage(T t, String order) throws Exception;
 }

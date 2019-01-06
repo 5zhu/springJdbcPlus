@@ -1,5 +1,6 @@
 package core.dao;
 
+import core.entity.PageView;
 import core.entity.SuperEntity;
 import org.springframework.stereotype.Repository;
 
@@ -13,13 +14,13 @@ public class SuperDaoImpl<T extends SuperEntity> extends JdbcTemplateDaoSupport 
     }
 
     @Override
-    public T getDo(Class<T> clazz, int id) {
+    public T getById(Class<T> clazz, int id) {
         return (T) super.get(clazz, id);
     }
 
     @Override
-    public int update(T oldDO, T newDO) throws Exception {
-        return super.update(oldDO, newDO, true);
+    public int updateDO(T oldDO, T newDO) throws Exception {
+        return super.update(oldDO, newDO);
     }
 
     @Override
@@ -30,5 +31,15 @@ public class SuperDaoImpl<T extends SuperEntity> extends JdbcTemplateDaoSupport 
     @Override
     public List<T> queryForList(T t) throws Exception {
         return super.findList(t);
+    }
+
+    @Override
+    public PageView queryForPage(T t) throws Exception {
+        return this.queryForPage(t, null);
+    }
+
+    @Override
+    public PageView queryForPage(T t, String order) throws Exception {
+        return super.queryForPageView(t, order);
     }
 }

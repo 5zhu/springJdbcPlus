@@ -8,8 +8,12 @@ import java.lang.annotation.*;
 @Inherited
 public @interface UserDefined {
 
-    public String transitionSource() default "";
+    /**
+     * 转化函数
+     * @return
+     */
+     String transitionFunction() default "";
 
-    public String transitionFunction() default "";
+     //TODO 这种做法查询没有问题， 修改待讨论
 
 }

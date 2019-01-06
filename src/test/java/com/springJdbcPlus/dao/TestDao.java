@@ -2,14 +2,16 @@ package com.springJdbcPlus.dao;
 
 import com.springJdbcPlus.entity.GenderEnum;
 import com.springJdbcPlus.entity.User;
+import core.entity.PageView;
 import core.utils.RowMapperLoader;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.SqlOutParameter;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -24,6 +26,8 @@ public class TestDao {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    private static final Logger logger = LoggerFactory.getLogger(TestDao.class);
 
     @Test
     public void insert() throws Exception {
@@ -54,7 +58,7 @@ public class TestDao {
         User user7 = new User(27,"geguofeng","1223dfcfdv12",181.5);
         user7.setGender(1);
         int i7 = userDao.insertDO(user7);*/
-        User user8 = new User(29, "tom", "1234312", 100.5);
+        User user8 = new User(32, "tom", "1234312", 100.5);
         user8.setGenderEnum(GenderEnum.MALE);
         user8.setGender(1);
         userDao.insertDO(user8);
@@ -73,21 +77,24 @@ public class TestDao {
 
     @Test
     public void update() throws Exception {
-        User user = new User(18,"geguofeng18","1223dfcfdv12",181.5);
-        user.setGender(1);
+        User user = userDao.getById(User.class, 32);
         //user.setIdCard("410527");
+        User user2 = (User)user.clone();
+        user2.setGender(3);
 
-        User user2 = new User(11,"geguofeng11","23dfcfdv12",181.5);
-        user.setGender(1);
-       // user.setIdCard("4105271");
-
-        userDao.update(user, user2);
+        userDao.updateDO(user, user2);
     }
 
     @Test
     public void get() {
-        User user = userDao.getDo(User.class, 29);
+        User user = userDao.getById(User.class, 32);
         System.out.println(user);
+    }
+
+    @Test
+    public void testQueryPage() throws Exception {
+        User u = new User();
+        PageView page = userDao.queryForPage(u);
     }
 
     @Test
@@ -112,7 +119,7 @@ public class TestDao {
         User user = new User();
         user.setUsername("geguofeng");
         List<User> users = this.userDao.queryForList(user);
-        System.out.println(users.size());
+        logger.info("query user count {}", users.size());
     }
 
 }

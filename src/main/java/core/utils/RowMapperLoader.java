@@ -36,7 +36,7 @@ public class RowMapperLoader<T> implements RowMapper<T> {
     }
 
     @Override
-    public T mapRow(ResultSet rs, int arg1) throws SQLException {
+    public T mapRow(ResultSet rs, int arg1) {
         T obj = null;
 
         try {
@@ -44,7 +44,7 @@ public class RowMapperLoader<T> implements RowMapper<T> {
 
             final ResultSetMetaData metaData = rs.getMetaData();
             int columnLength = metaData.getColumnCount();
-            String columnName = null;
+            String columnName;
 
             for (int i = 1; i <= columnLength; i++) {
                 columnName = metaData.getColumnName(i);
@@ -52,26 +52,25 @@ public class RowMapperLoader<T> implements RowMapper<T> {
                 Field field = fieldHashMap.get(NameHandler.toLowerUnderscore(columnName));
                 field.setAccessible(true);
 
-                // fieldClazz == Character.class || fieldClazz == char.class
-                if (fieldClazz == int.class || fieldClazz == Integer.class) { // int
+                if (fieldClazz == int.class || fieldClazz == Integer.class) {
                     field.set(obj, rs.getInt(columnName));
-                } else if (fieldClazz == boolean.class || fieldClazz == Boolean.class) { // boolean
+                } else if (fieldClazz == boolean.class || fieldClazz == Boolean.class) {
                     field.set(obj, rs.getBoolean(columnName));
-                } else if (fieldClazz == String.class) { // string
+                } else if (fieldClazz == String.class) {
                     field.set(obj, rs.getString(columnName));
-                } else if (fieldClazz == float.class) { // float
+                } else if (fieldClazz == float.class) {
                     field.set(obj, rs.getFloat(columnName));
-                } else if (fieldClazz == double.class || fieldClazz == Double.class) { // double
+                } else if (fieldClazz == double.class || fieldClazz == Double.class) {
                     field.set(obj, rs.getDouble(columnName));
-                } else if (fieldClazz == BigDecimal.class) { // bigdecimal
+                } else if (fieldClazz == BigDecimal.class) {
                     field.set(obj, rs.getBigDecimal(columnName));
-                } else if (fieldClazz == short.class || fieldClazz == Short.class) { // short
+                } else if (fieldClazz == short.class || fieldClazz == Short.class) {
                     field.set(obj, rs.getShort(columnName));
-                } else if (fieldClazz == Date.class) { // date
+                } else if (fieldClazz == Date.class) {
                     field.set(obj, rs.getDate(columnName));
-                } else if (fieldClazz == Timestamp.class) { // timestamp
+                } else if (fieldClazz == Timestamp.class) {
                     field.set(obj, rs.getTimestamp(columnName));
-                } else if (fieldClazz == Long.class || fieldClazz == long.class) { // long
+                } else if (fieldClazz == Long.class || fieldClazz == long.class) {
                     field.set(obj, rs.getLong(columnName));
                 } else if (!StringUtils.isEmpty(rs.getString(columnName)) && fieldClazz.isEnum() ){
                     Method method = obj.getClass().getMethod(NameHandler.getSetMethodName(field.getName()), fieldClazz);

@@ -19,7 +19,7 @@ public class NameHandler {
     public static String toLowerCamel(String name){
         return Optional.ofNullable(name)
                 .map(str -> CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, str))
-                .orElse("");
+                .orElseThrow(() -> new NullPointerException());
     }
 
     /**
@@ -31,7 +31,7 @@ public class NameHandler {
     public static String toLowerUnderscore(String name){
         return Optional.ofNullable(name)
                 .map(str -> CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, str))
-                .orElse("");
+                .orElseThrow(() -> new NullPointerException());
     }
 
     /**
@@ -41,6 +41,6 @@ public class NameHandler {
      */
     public static String getSetMethodName(String fieldName){
         return Optional.ofNullable(fieldName).map(str -> "set".concat(CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL, str)))
-                .orElse("");
+                .orElseThrow(() -> new NullPointerException());
     }
 }

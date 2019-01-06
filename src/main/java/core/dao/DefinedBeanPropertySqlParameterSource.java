@@ -6,10 +6,7 @@ import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import java.sql.Types;
 
 /**
- *
- * @Auther:
- * @Date: 2019/1/4
- * @Description: 实现自定义的BeanPropertySqlParameterSource，支持entity对象中的枚举类型字段
+ *实现自定义的BeanPropertySqlParameterSource，支持entity对象中的枚举类型字段
  */
 public class DefinedBeanPropertySqlParameterSource extends BeanPropertySqlParameterSource {
 

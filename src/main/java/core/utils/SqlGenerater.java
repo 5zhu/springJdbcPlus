@@ -29,7 +29,7 @@ public class SqlGenerater<T extends SuperEntity> {
         String split = "";
         for (String fieldName : fieldList) {
             if (Objects.nonNull(t.getAttributeValue(fieldName))) {
-                insert_sql.append(split).append(t.getDBAttributeName(fieldName));
+                insert_sql.append(split).append(t.getDBColumnName(fieldName));
                 insert_value_sql.append(split).append(":").append(fieldName);
                 split = ",";
             }
@@ -42,7 +42,7 @@ public class SqlGenerater<T extends SuperEntity> {
     public <T extends SuperEntity> String generateDeleteSql(T t){
         StringBuffer delete_sql = new StringBuffer(" delete from ");
         delete_sql.append(t.getTableName()).append(" where ")
-                .append(t.getDBAttributeName(t.getPkFieldName()))
+                .append(t.getDBColumnName(t.getPkFieldName()))
                 .append("=:id");
         return delete_sql.toString();
     }
@@ -50,7 +50,7 @@ public class SqlGenerater<T extends SuperEntity> {
     public <T extends SuperEntity> String generateSelectSql(T t) {
         StringBuffer sql = new StringBuffer(" SELECT ");
         String fieldInDB = t.getAttributeNames().stream()
-                .map(s -> t.getDBAttributeName(s))
+                .map(s -> t.getDBColumnName(s))
                 .collect(Collectors.joining(","));
         sql.append(fieldInDB).append(" FROM ").append(t.getTableName()).append(" ");
         return sql.toString();
@@ -62,7 +62,7 @@ public class SqlGenerater<T extends SuperEntity> {
             List<String> fields = t.getAttributeNames();
             for (String field : fields){
                 Object fieldValue = t.getAttributeValue(field);
-                field = t.getDBAttributeName(field);
+                field = t.getDBColumnName(field);
                 if(Objects.nonNull(fieldValue)){
                     if(whereSql.length() > 0) {
                         whereSql.append(" and ");

@@ -2,6 +2,7 @@ package com.springJdbcPlus.entity;
 
 import core.entity.SuperEntity;
 import core.entity.TableName;
+import core.entity.UserDefined;
 
 @TableName(value = "t_user")
 public class User extends SuperEntity {
@@ -10,11 +11,14 @@ public class User extends SuperEntity {
     private String username;
     private String password;
     private Double account;
+    @UserDefined(transitionFunction="cast('1' as NUMERIC)")
     private Integer gender;
     private GenderEnum genderEnum;
     /*@UserDefined(transitionSource="gender", transitionFunction = "local(\"gender\", \"test1\") as gender")
     private String genderStr;*/
     private String idCard;
+
+    private Boolean perset;
 
     public User()
     {
@@ -84,5 +88,13 @@ public class User extends SuperEntity {
 
     public void setGenderEnum(GenderEnum genderEnum) {
         this.genderEnum = genderEnum;
+    }
+
+    public Boolean getPerset() {
+        return perset;
+    }
+
+    public void setPerset(Boolean perset) {
+        this.perset = perset;
     }
 }

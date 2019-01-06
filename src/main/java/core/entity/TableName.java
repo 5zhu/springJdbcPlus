@@ -1,10 +1,5 @@
 package core.entity;
 
-/**
- * @Auther: geguofeng
- * @Date: 2019/1/2
- * @Description:
- */
 import java.lang.annotation.*;
 
 @Target({ElementType.TYPE})
